@@ -352,37 +352,36 @@ let http_handler = (req,res)=>
             });
         }
     }
-    else if(req.method=='DELETE'){
-        console.log(url.parse(req.url).pathname);
-        if(url.parse(req.url).pathname.search('\/api\/faculties\/[%-я]+')!=(-1)){
-          let p = url.parse(req.url,true);
-          let r =decodeURI(p.pathname).split('/');
-          let o = r[3];
-          sequelize.query("SELECT FACULTY,FACULTY_NAME FROM FACULTY where FACULTY='"+o+"'")
-          .then(result=>
-          {
-          Faculty.destroy({where:{faculty:o}}).then(task=>
-            {
-              console.log(task);
-              if(task>0)
-              {
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"Faculty":"${result[0][0].FACULTY}","Faculty_name":"${result[0][0].FACULTY_NAME}"}`);
-              }
-              else
-              {
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"error":"1","messsage":"Такого факультета для удаления не существует"}`);
-              }
-            })
-            .catch(err=>
-              {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(JSON.stringify(err));
-              });
+    else if (req.method=='DELETE'){
+        console.log(pathname);
+
+        if (/\/api\/faculties\/[%-я]+/.test(pathname)){
+            let p = url.parse(req.url,true);
+            let r = decodeURI(p.pathname).split('/');
+            let o = r[3];
+
+            sequelize.query("SELECT FACULTY,FACULTY_NAME FROM FACULTY where FACULTY='" + o + "'")
+            .then(result => {
+                Faculty.destroy({where:{faculty:o}})
+                .then(task => {
+                    console.log(task);
+
+                    if(task > 0) {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Faculty":"${result[0][0].FACULTY}","Faculty_name":"${result[0][0].FACULTY_NAME}"}`);
+                    }
+                    else {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":"1","messsage":"Такого факультета для удаления не существует"}`);
+                    }
+                })
+                .catch(err => {
+                    res.writeHead(200,{'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(err));
+                });
             }); 
         }
-        else if(url.parse(req.url).pathname.search('\/api\/pulpits\/[%-я]+')!=(-1)){
+        else if(/\/api\/pulpits\/[%-я]+/.test(pathname)){
             let p = url.parse(req.url,true);
             let r =decodeURI(p.pathname).split('/');
             let o = r[3];
@@ -411,89 +410,78 @@ let http_handler = (req,res)=>
              });
             });
         }
-        else if(url.parse(req.url).pathname.search('\/api\/subjects\/[%-я]+')!=(-1)){
+        else if(/\/api\/subjects\/[%-я]+/.test(pathname)){
             let p = url.parse(req.url,true);
             let r =decodeURI(p.pathname).split('/');
             let o = r[3];
+
             sequelize.query("SELECT SUBJECT,SUBJECT_NAME,PULPIT FROM SUBJECT where SUBJECT='"+o+"'")
-            .then(result=>
-            {
-            Subject.destroy({where:{subject:o}})
-            .then(task=>
-              {
-                if(task>0){
-                  res.writeHead(200,{'Content-Type': 'application/json'});
-                  res.end(`{"Subject":"${result[0][0].SUBJECT}","Subject_name":"${result[0][0].SUBJECT_NAME}","Pulpit":"${result[0][0].PULPIT}"}`);
-                  }
-                  else
-                  {
+            .then(result => {
+                Subject.destroy({where:{subject:o}})
+                .then(task => {
+                    if (task > 0) {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Subject":"${result[0][0].SUBJECT}","Subject_name":"${result[0][0].SUBJECT_NAME}","Pulpit":"${result[0][0].PULPIT}"}`);
+                    }
+                    else {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":"1","messsage":"Такого предмета для удаления не существует"}`);
+                    }
+                })
+                .catch(err => {
                     res.writeHead(200,{'Content-Type': 'application/json'});
-                    res.end(`{"error":"1","messsage":"Такого предмета для удаления не существует"}`);
-                  }
-              })
-              .catch(err=>
-                {
-                  res.writeHead(200,{'Content-Type': 'application/json'});
-                  res.end(JSON.stringify(err));
+                    res.end(JSON.stringify(err));
                 });
-              });
-        }
-        else if(url.parse(req.url).pathname.search('\/api\/auditoriumstypes\/[%-я]+')!=(-1)){
-          let p = url.parse(req.url,true);
-          let r =decodeURI(p.pathname).split('/');
-          let o = r[3];
-          sequelize.query("SELECT AUDITORIUM_TYPE,AUDITORIUM_TYPENAME FROM AUDITORIUM_TYPE where AUDITORIUM_TYPE='"+o+"'")
-          .then(result=>
-          {
-          Auditorium_type.destroy({where:{auditorium_type:o}})
-          .then(task=>
-            {
-              if(task>0)
-              {
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"Audtiorium_type":"${result[0][0].AUDITORIUM_TYPE}","Auditorium_typename":"${result[0][0].AUDITORIUM_TYPENAME}"}`);
-              }
-              else
-              {
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"error":1,"message":"Такого типа аудитории для удаления не существует"}`);
-              }
-            })
-            .catch(err=>
-              {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(JSON.stringify(err));
-              });
             });
         }
-        else if(url.parse(req.url).pathname.search('\/api\/auditoriums\/[%-я]+')!=(-1)){
+        else if(/\/api\/auditoriumstypes\/[%-я]+/.test(pathname)){
             let p = url.parse(req.url,true);
-          let r =decodeURI(p.pathname).split('/');
-          let o = r[3];
-          sequelize.query("SELECT AUDITORIUM,AUDITORIUM_NAME,AUDITORIUM_CAPACITY,AUDITORIUM_TYPE FROM AUDITORIUM where AUDITORIUM='"+o+"'")
-          .then(result=>
-          {
-          Auditorium.destroy({where:{auditorium:o}})
-          .then(task=>
-            {
-              console.log(task);
-              if(task>0)
-              {
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"Auditorium":"${result[0][0].AUDITORIUM}","Auditorium_name":"${result[0][0].AUDITORIUM_NAME}","Auditorium_capacity":${result[0][0].AUDITORIUM_CAPACITY}, "Auditorium_type":${result[0][0].AUDITORIUM_TYPE}}`);
-              }
-              else
-              {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(`{"error":1,"message":"Такой аудитории для удаления не существует"}`);
-              }
-            })
-          .catch(err=>
-          {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(JSON.stringify(err));
-          });
-        });
+            let r =decodeURI(p.pathname).split('/');
+            let o = r[3];
+
+            sequelize.query("SELECT AUDITORIUM_TYPE,AUDITORIUM_TYPENAME FROM AUDITORIUM_TYPE where AUDITORIUM_TYPE='"+o+"'")
+            .then(result=> {
+                Auditorium_type.destroy({where:{auditorium_type:o}})
+                .then(task => {
+                    if(task > 0) {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Audtiorium_type":"${result[0][0].AUDITORIUM_TYPE}","Auditorium_typename":"${result[0][0].AUDITORIUM_TYPENAME}"}`);
+                    }
+                    else {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":1,"message":"Такого типа аудитории для удаления не существует"}`);
+                    }
+                })
+                .catch(err => {
+                    res.writeHead(200,{'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(err));
+                });
+            });
+        }
+        else if(/\/api\/auditoriums\/[0-9-]+/.test(pathname)){
+            let p = url.parse(req.url,true);
+            let r =decodeURI(p.pathname).split('/');
+            let o = r[3];
+
+            sequelize.query("SELECT AUDITORIUM,AUDITORIUM_NAME,AUDITORIUM_CAPACITY,AUDITORIUM_TYPE FROM AUDITORIUM where AUDITORIUM='"+o+"'")
+            .then(result => {
+                Auditorium.destroy({where:{auditorium:o}})
+                .then(task => {
+                    console.log(task);
+                    if(task > 0) {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Auditorium":"${result[0][0].AUDITORIUM}","Auditorium_name":"${result[0][0].AUDITORIUM_NAME}","Auditorium_capacity":${result[0][0].AUDITORIUM_CAPACITY}, "Auditorium_type":${result[0][0].AUDITORIUM_TYPE}}`);
+                    }
+                    else {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":1,"message":"Такой аудитории для удаления не существует"}`);
+                    }
+                })
+                .catch(err => {
+                    res.writeHead(200,{'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(err));
+                });
+            });
         }
       }
     }

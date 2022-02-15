@@ -94,8 +94,10 @@ function internalORM(sequelize)
     Faculty.hasMany(Pulpit, { as: 'pulpits', foreignKey: 'faculty', onDelete: 'cascade' })
     Faculty.hasMany(Teacher, { as: 'teachers', foreignKey: 'teacher', onDelete: 'cascade' })
     Pulpit.belongsTo(Faculty, { foreignKey: 'faculty' })
-    Pulpit.hasMany(Teacher, { as: 'teachers', foreignKey: 'pulpit' })
+    Pulpit.hasMany(Teacher, { as: 'teachers', foreignKey: 'pulpit', onDelete: 'cascade' })
+    Pulpit.hasMany(Subject, { as: 'subjects', foreignKey: 'subject', onDelete: 'cascade' })
     Teacher.belongsTo(Pulpit, { foreignKey: 'pulpit' })
+    Subject.belongsTo(Pulpit, { foreignKey: 'pulpit' })
 }
 
 exports.ORM = (s) => { 
