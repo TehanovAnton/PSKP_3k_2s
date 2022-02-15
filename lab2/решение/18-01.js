@@ -12,42 +12,44 @@ const { Faculty, Pulpit, Teacher, Subject, Auditorium_type, Auditorium} = requir
 
 let http_handler = (req,res)=>
 {
+    let pathname = url.parse(req.url).pathname;;
+
     if(req.method=='GET') {
-        if(url.parse(req.url).pathname === '/'){
+        if(pathname === '/'){
             
             let html= fs.readFileSync('./14-01.html');
             res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
             res.end(html);
         }
-        // else if(url.parse(req.url).pathname === '/api/faculties'){
-        //         Faculty.findAll().then(faculties=>
-        //             {
-        //                 res.writeHead(200,{'Content-Type': 'application/json'});
-        //                 res.end(JSON.stringify(faculties));              
-        //             });
-        // }    
-        // else if(url.parse(req.url).pathname === '/api/pulpits'){
+        else if(pathname === '/api/faculties'){
+                Faculty.findAll().then(faculties=>
+                    {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(JSON.stringify(faculties));              
+                    });
+        }    
+        // else if(pathname === '/api/pulpits'){
         //         Pulpit.findAll().then(pulpits=>
         //             {
         //                 res.writeHead(200,{'Content-Type': 'application/json'});
         //                 res.end(JSON.stringify(pulpits));              
         //             });
         // }
-        // else if(url.parse(req.url).pathname === '/api/subjects'){
+        // else if(pathname === '/api/subjects'){
         //         Subject.findAll().then(subjects=>
         //             {
         //                 res.writeHead(200,{'Content-Type': 'application/json'});
         //                 res.end(JSON.stringify(subjects));              
         //             });
         //         }
-        // else if(url.parse(req.url).pathname === '/api/auditoriumstypes'){
+        // else if(pathname === '/api/auditoriumstypes'){
         //         Auditorium_type.findAll().then(auditorium_types=>
         //             {
         //                 res.writeHead(200,{'Content-Type': 'application/json'});
         //                 res.end(JSON.stringify(auditorium_types));              
         //             });
         // }
-        // else if(url.parse(req.url).pathname === '/api/auditoriums'){
+        // else if(pathname === '/api/auditoriums'){
         //         Auditorium.findAll().then(auditoriums=>
         //             {
         //                 res.writeHead(200,{'Content-Type': 'application/json'});
@@ -56,7 +58,7 @@ let http_handler = (req,res)=>
         // }
     }
     // else if(req.method=='POST'){
-    // if(url.parse(req.url).pathname === '/api/faculties'){
+    // if(pathname === '/api/faculties'){
     //     let body='';
     //         req.on('data',chunk=>{body+=chunk.toString();});
     //         req.on('end',()=>{
@@ -77,7 +79,7 @@ let http_handler = (req,res)=>
     //     });
     // });
     // }
-    // else if(url.parse(req.url).pathname === '/api/pulpits'){
+    // else if(pathname === '/api/pulpits'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end', ()=>{
@@ -97,7 +99,7 @@ let http_handler = (req,res)=>
     //             })
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/subjects'){
+    // else if(pathname === '/api/subjects'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',async ()=>{
@@ -117,7 +119,7 @@ let http_handler = (req,res)=>
     //             })
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/auditoriumstypes'){
+    // else if(pathname === '/api/auditoriumstypes'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end', ()=>{
@@ -137,7 +139,7 @@ let http_handler = (req,res)=>
     //             })
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/auditoriums'){
+    // else if(pathname === '/api/auditoriums'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',()=>{
@@ -159,7 +161,7 @@ let http_handler = (req,res)=>
     // }
     // }
     // else if(req.method=='PUT'){
-    // if(url.parse(req.url).pathname === '/api/faculties'){
+    // if(pathname === '/api/faculties'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',()=>{
@@ -189,7 +191,7 @@ let http_handler = (req,res)=>
     //         });
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/pulpits'){
+    // else if(pathname === '/api/pulpits'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',()=>{
@@ -220,7 +222,7 @@ let http_handler = (req,res)=>
     //         })
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/subjects'){
+    // else if(pathname === '/api/subjects'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',()=>{
@@ -252,7 +254,7 @@ let http_handler = (req,res)=>
     //         });
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/auditoriumstypes'){
+    // else if(pathname === '/api/auditoriumstypes'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',()=>{
@@ -283,7 +285,7 @@ let http_handler = (req,res)=>
     //         });
     //     });
     // }
-    // else if(url.parse(req.url).pathname === '/api/auditoriums'){
+    // else if(pathname === '/api/auditoriums'){
     //     let body='';
     //     req.on('data',chunk=>{body+=chunk.toString();});
     //     req.on('end',()=>{
@@ -318,8 +320,8 @@ let http_handler = (req,res)=>
     // }
     // }
     // else if(req.method=='DELETE'){
-    // console.log(url.parse(req.url).pathname);
-    // if(url.parse(req.url).pathname.search('\/api\/faculties\/[%-ÿ]+')!=(-1)){
+    // console.log(pathname);
+    // if(pathname.search('\/api\/faculties\/[%-ÿ]+')!=(-1)){
     //     let p = url.parse(req.url,true);
     //     let r =decodeURI(p.pathname).split('/');
     //     let o = r[3];
@@ -347,7 +349,7 @@ let http_handler = (req,res)=>
     //         });
     //     }); 
     // }
-    // else if(url.parse(req.url).pathname.search('\/api\/pulpits\/[%-ÿ]+')!=(-1)){
+    // else if(pathname.search('\/api\/pulpits\/[%-ÿ]+')!=(-1)){
     //     let p = url.parse(req.url,true);
     //     let r =decodeURI(p.pathname).split('/');
     //     let o = r[3];
@@ -376,7 +378,7 @@ let http_handler = (req,res)=>
     //         });
     //     });
     // }
-    // else if(url.parse(req.url).pathname.search('\/api\/subjects\/[%-ÿ]+')!=(-1)){
+    // else if(pathname.search('\/api\/subjects\/[%-ÿ]+')!=(-1)){
     //     let p = url.parse(req.url,true);
     //     let r =decodeURI(p.pathname).split('/');
     //     let o = r[3];
@@ -403,7 +405,7 @@ let http_handler = (req,res)=>
     //         });
     //         });
     // }
-    // else if(url.parse(req.url).pathname.search('\/api\/auditoriumstypes\/[%-ÿ]+')!=(-1)){
+    // else if(pathname.search('\/api\/auditoriumstypes\/[%-ÿ]+')!=(-1)){
     //     let p = url.parse(req.url,true);
     //     let r =decodeURI(p.pathname).split('/');
     //     let o = r[3];
@@ -431,7 +433,7 @@ let http_handler = (req,res)=>
     //         });
     //     });
     // }
-    // else if(url.parse(req.url).pathname.search('\/api\/auditoriums\/[%-ÿ]+')!=(-1)){
+    // else if(pathname.search('\/api\/auditoriums\/[%-ÿ]+')!=(-1)){
     //     let p = url.parse(req.url,true);
     //     let r =decodeURI(p.pathname).split('/');
     //     let o = r[3];

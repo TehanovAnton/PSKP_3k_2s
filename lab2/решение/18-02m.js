@@ -19,7 +19,7 @@ function internalORM(sequelize)
         {
             sequelize,
             modelName:'Faculty',
-            tableName:'Faculty',
+            tableName:'FACULTY',
             timestamps: false
         }
     );
