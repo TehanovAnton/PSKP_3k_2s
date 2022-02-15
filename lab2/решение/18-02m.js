@@ -23,6 +23,7 @@ function internalORM(sequelize)
             timestamps: false
         }
     );
+
     Pulpit.init({
             pulpit: { type:Sequelize.STRING, allowNull:false, primaryKey:true },
             pulpit_name: { type: Sequelize.STRING, allowNull:false },
@@ -34,7 +35,7 @@ function internalORM(sequelize)
         {
             sequelize,
             modelName:'Pulpit',
-            tableName:'Pulpit',
+            tableName:'PULPIT',
             timestamps: false
         }
     );

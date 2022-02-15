@@ -21,20 +21,20 @@ let http_handler = (req,res)=>
             res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
             res.end(html);
         }
-        else if(pathname === '/api/faculties'){
-                Faculty.findAll().then(faculties=>
-                    {
-                        res.writeHead(200,{'Content-Type': 'application/json'});
-                        res.end(JSON.stringify(faculties));              
-                    });
+        else if(pathname === '/api/faculties') {
+            Faculty.findAll()
+            .then(faculties => {
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(faculties));              
+            });
         }    
-        // else if(pathname === '/api/pulpits'){
-        //         Pulpit.findAll().then(pulpits=>
-        //             {
-        //                 res.writeHead(200,{'Content-Type': 'application/json'});
-        //                 res.end(JSON.stringify(pulpits));              
-        //             });
-        // }
+        else if(pathname === '/api/pulpits'){
+            Pulpit.findAll()
+            .then(pulpits => {
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(pulpits));              
+            });
+        }
         // else if(pathname === '/api/subjects'){
         //         Subject.findAll().then(subjects=>
         //             {
