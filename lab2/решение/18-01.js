@@ -10,6 +10,8 @@ var fs = require('fs');
 
 const { Faculty, Pulpit, Teacher, Subject, Auditorium_type, Auditorium} = require('./18-02m').ORM(sequelize);
 
+let extractFaculty = pathname => pathname.split('/')[2]
+
 let http_handler = (req,res)=>
 {
     let pathname = url.parse(req.url).pathname;;
@@ -55,6 +57,18 @@ let http_handler = (req,res)=>
                 res.writeHead(200,{'Content-Type': 'application/json'});
                 res.end(JSON.stringify(auditoriums));              
             });
+        }
+        else if(pathname.search(/api\/faculties\/(HTiT)|(IDiP)|(IEF)\/pulpits/)) {
+            let faculty = extractFaculty(pathname)
+
+            Faculty.findOne({ where: { Faculty: "HTiT" }, include: { model: Pulpit, as: 'pulpits' } })
+            .then(faculty => {
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(faculty.pulpits));              
+            })
+            .catch(error => {
+                console.log(error);
+            })
         }
     }
     // else if(req.method=='POST'){

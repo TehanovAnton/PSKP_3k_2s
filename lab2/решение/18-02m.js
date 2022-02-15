@@ -38,7 +38,8 @@ function internalORM(sequelize)
             tableName:'PULPIT',
             timestamps: false
         }
-    );
+    );    
+
     Teacher.init(
         {
             teacher:{type:Sequelize.STRING, allowNull:false, primaryKey:true},
@@ -96,7 +97,11 @@ function internalORM(sequelize)
             timestamps: false
         }
     );
-    
+
+    Faculty.hasMany(Pulpit, { as: 'pulpits', foreignKey: 'faculty' })
+    Faculty.hasMany(Teacher, { as: 'teachers', foreignKey: 'teacher' })
+
+    Pulpit.belongsTo(Faculty, { foreignKey: 'faculty' })    
 }
 
 exports.ORM = (s) => { 
