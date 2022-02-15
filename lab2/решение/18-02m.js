@@ -76,7 +76,7 @@ function internalORM(sequelize)
         {
             sequelize,
             modelName:'Auditorium_type',
-            tableName:'Auditorium_type',
+            tableName:'AUDITORIUM_TYPE',
             timestamps: false
         }
     );
@@ -92,7 +92,7 @@ function internalORM(sequelize)
         {
             sequelize,
             modelName:'Auditorium',
-            tableName:'Auditorium',
+            tableName:'AUDITORIUM',
             timestamps: false
         }
     );

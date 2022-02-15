@@ -49,13 +49,13 @@ let http_handler = (req,res)=>
                 res.end(JSON.stringify(auditorium_types));              
             });
         }
-        // else if(pathname === '/api/auditoriums'){
-        //         Auditorium.findAll().then(auditoriums=>
-        //             {
-        //                 res.writeHead(200,{'Content-Type': 'application/json'});
-        //                 res.end(JSON.stringify(auditoriums));              
-        //             });
-        // }
+        else if(pathname === '/api/auditoriums') {
+            Auditorium.findAll()
+            .then(auditoriums => {
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(auditoriums));              
+            });
+        }
     }
     // else if(req.method=='POST'){
     // if(pathname === '/api/faculties'){
