@@ -63,7 +63,7 @@ function internalORM(sequelize)
         {
             sequelize,
             modelName:'Subject',
-            tableName:'Subject',
+            tableName:'SUBJECT',
             timestamps: false
         }
     );
