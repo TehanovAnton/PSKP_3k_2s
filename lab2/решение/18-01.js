@@ -42,13 +42,13 @@ let http_handler = (req,res)=>
                 res.end(JSON.stringify(subjects));              
             });
         }
-        // else if(pathname === '/api/auditoriumstypes'){
-        //         Auditorium_type.findAll().then(auditorium_types=>
-        //             {
-        //                 res.writeHead(200,{'Content-Type': 'application/json'});
-        //                 res.end(JSON.stringify(auditorium_types));              
-        //             });
-        // }
+        else if(pathname === '/api/auditoriumstypes'){
+            Auditorium_type.findAll()
+            .then(auditorium_types => {
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(auditorium_types));              
+            });
+        }
         // else if(pathname === '/api/auditoriums'){
         //         Auditorium.findAll().then(auditoriums=>
         //             {
