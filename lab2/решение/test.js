@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 const sequelize = new Sequelize(
-    'pskp', 'anton', 'ewqqwe',
+    'pskp', 'andrew', 'andrew',
     { 
         dialect:'mssql', 
         pool: { max:5, min:0, acquire:30000, idle:10000 } 

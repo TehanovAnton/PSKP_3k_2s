@@ -1,14 +1,12 @@
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 
-
 class Faculty extends Model{};
 class Pulpit extends Model{};
 class Teacher extends Model{};
 class Subject extends Model{};
 class Auditorium_type extends Model{};
 class Auditorium extends Model{};
-
 
 function internalORM(sequelize)
 {
@@ -23,7 +21,6 @@ function internalORM(sequelize)
             timestamps: false
         }
     );
-
     Pulpit.init({
             pulpit: { type:Sequelize.STRING, allowNull:false, primaryKey:true },
             pulpit_name: { type: Sequelize.STRING, allowNull:false },
@@ -39,7 +36,6 @@ function internalORM(sequelize)
             timestamps: false
         }
     );    
-
     Teacher.init(
         {
             teacher:{type:Sequelize.STRING, allowNull:false, primaryKey:true},
@@ -68,7 +64,6 @@ function internalORM(sequelize)
             timestamps: false
         }
     );
-    
     Auditorium_type.init(
         {
             auditorium_type:{type:Sequelize.STRING, allowNull:false, primaryKey:true},
@@ -81,7 +76,6 @@ function internalORM(sequelize)
             timestamps: false
         }
     );
-    
     Auditorium.init(
         {
             auditorium:{type:Sequelize.STRING, allowNull:false, primaryKey:true},
@@ -97,9 +91,8 @@ function internalORM(sequelize)
             timestamps: false
         }
     );
-
-    Faculty.hasMany(Pulpit, { as: 'pulpits', foreignKey: 'faculty' })
-    Faculty.hasMany(Teacher, { as: 'teachers', foreignKey: 'teacher' })
+    Faculty.hasMany(Pulpit, { as: 'pulpits', foreignKey: 'faculty', onDelete: 'cascade' })
+    Faculty.hasMany(Teacher, { as: 'teachers', foreignKey: 'teacher', onDelete: 'cascade' })
 
     Pulpit.belongsTo(Faculty, { foreignKey: 'faculty' })    
 }
