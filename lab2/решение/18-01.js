@@ -58,7 +58,7 @@ let http_handler = (req,res)=>
                 res.end(JSON.stringify(auditoriums));              
             });
         }
-        else if(pathname.search(/api\/faculties\/(HTiT)|(IDiP)|(IEF)\/pulpits/)) {
+        else if(/api\/faculties\/((HTiT)|(IDiP)|(IEF))\/pulpits/.test(pathname)) {
             let faculty = extractFaculty(pathname)
 
             Faculty.findOne({ where: { Faculty: "HTiT" }, include: { model: Pulpit, as: 'pulpits' } })
@@ -68,6 +68,25 @@ let http_handler = (req,res)=>
             })
             .catch(error => {
                 console.log(error);
+            })
+        }
+        else if(/api\/faculties\/((HTiT)|(IDiP)|(IEF))\/teachers/.test(pathname)) {
+            let faculty = extractFaculty(pathname)
+
+            Pulpit.findAll({ where: { faculty: 'HTiT' },
+                include: {
+                    model: Teacher,
+                    as: 'teachers',
+                }
+            })
+            .then(pulpits => {
+                let teachers = []
+                pulpits.forEach(p => {
+                    teachers.push(p.teachers)
+                });
+                
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(teachers)); 
             })
         }
     }
