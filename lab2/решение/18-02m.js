@@ -15,6 +15,14 @@ function internalORM(sequelize)
             faculty_name:{type: Sequelize.STRING, allowNull:false}
         },
         {
+            hooks: {
+                beforeCreate: () => {
+                    console.log("Faculty creation start")
+                },
+                afterCreate: () => {
+                    console.log("Faculty created")
+                }
+            },
             sequelize,
             modelName:'Faculty',
             tableName:'FACULTY',
