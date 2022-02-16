@@ -8,18 +8,18 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 
-
 const { Faculty, Pulpit, Teacher, Subject, Auditorium_type, Auditorium} = require('./18-02m').ORM(sequelize);
 
 let extractFaculty = pathname => pathname.split('/')[2]
+let extractCapacity = pathname => pathname.split('/').reverse()[0]
 
-let http_handler = (req,res)=>
+
+let http_handler = (req, res)=>
 {
     let pathname = url.parse(req.url).pathname;;
 
     if (req.method=='GET') {
         if(pathname === '/'){
-            
             let html= fs.readFileSync('./14-01.html');
             res.writeHead(200,{'Content-Type': 'text/html; charset=utf-8'});
             res.end(html);
@@ -58,6 +58,14 @@ let http_handler = (req,res)=>
                 res.writeHead(200,{'Content-Type': 'application/json'});
                 res.end(JSON.stringify(auditoriums));              
             });
+        }
+        else if(/\/api\/auditoriums\/[0-9]+/.test(pathname)) {
+            let capacity = extractCapacity(pathname)
+            Auditorium.scope('capacity', { method: ['capacity', capacity] }).findAll()
+            .then(auditoriums => {
+                res.writeHead(200,{'Content-Type': 'application/json'});
+                res.end(JSON.stringify(auditoriums));              
+            })
         }
         else if(/api\/faculties\/((HTiT)|(IDiP)|(IEF))\/pulpits/.test(pathname)) {
             let faculty = extractFaculty(pathname)

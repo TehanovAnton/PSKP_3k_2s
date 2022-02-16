@@ -97,4 +97,12 @@ let auditoriumUpdate = () => {
     });
 }
 
-auditoriumUpdate()
+let auditoriumScope = () => {
+    let a = Auditorium.scope('capacity', { method: ['capacity', 60] })
+    a.findAll()
+    .then(all => {
+        console.dir(all)
+    })
+}
+
+auditoriumScope()

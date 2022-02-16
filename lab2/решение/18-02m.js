@@ -84,13 +84,20 @@ function internalORM(sequelize)
             auditorium_type:{type: Sequelize.STRING, allowNull:false,   
                 references:{model:Auditorium_type,key:'auditorium_type'}}
         },
+
         {
+            scopes: {
+                capacity(value) {
+                    return { where: { auditorium_capacity: value } }
+                }
+            },
             sequelize,
             modelName:'Auditorium',
             tableName:'AUDITORIUM',
             timestamps: false
         }
     );
+
     Faculty.hasMany(Pulpit, { as: 'pulpits', foreignKey: 'faculty', onDelete: 'cascade' })
     Faculty.hasMany(Teacher, { as: 'teachers', foreignKey: 'teacher', onDelete: 'cascade' })
     Pulpit.belongsTo(Faculty, { foreignKey: 'faculty' })
