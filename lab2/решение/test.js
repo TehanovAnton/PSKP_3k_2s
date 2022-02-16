@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const Model = Sequelize.Model;
 const { DB_NAME, USERNAME, USERPASSWORD } = require('./db_connection')
 const sequelize = new Sequelize(
@@ -105,4 +105,20 @@ let auditoriumScope = () => {
     })
 }
 
-auditoriumScope()
+let auditoriumTransaction = async () => {    
+    const t = await sequelize.transaction();
+
+    await Auditorium.update(
+        { auditorium_capacity: 0 },
+        { 
+            transaction: t,
+            where: { 
+                auditorium_capacity: { [Op.gt]: -1 } 
+            } 
+        }
+    )
+
+    setTimeout(() => { t.rollback() }, 10000)    
+}
+
+auditoriumTransaction()

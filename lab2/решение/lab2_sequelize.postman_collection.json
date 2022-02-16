@@ -475,6 +475,116 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "/api/faculties/HTiT",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/faculties/HTiT",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"faculties",
+										"HTiT"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/pulpits/ISiT",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/pulpits/ISiT",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"pulpits",
+										"ISiT"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/subjects/DB",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/subjects/BLZiPsOO",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"subjects",
+										"BLZiPsOO"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/auditoriumstypes/",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/auditoriumstypes/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auditoriumstypes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/auditoriums/103-4",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/auditoriums/103-4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auditoriums",
+										"103-4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
