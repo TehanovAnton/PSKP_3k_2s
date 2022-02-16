@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
-const sequelize = new Sequelize('pskp', 'andrew', 'andrew',
+const { DB_NAME, USERNAME, USERPASSWORD } = require('./db_connection')
+const sequelize = new Sequelize(DB_NAME, USERNAME, USERPASSWORD,
                 { dialect:'mssql', pool: { max:5, min:0, acquire:30000, idle:10000 } });
 
 var http = require('http');
@@ -90,46 +91,42 @@ let http_handler = (req,res)=>
             })
         }
     }
-    else if(req.method=='POST'){
+    else if(req.method=='POST') {
         if(url.parse(req.url).pathname === '/api/faculties'){
-          let body='';
-                req.on('data',chunk=>{body+=chunk.toString();});
-                req.on('end',()=>{
-          let o = JSON.parse(body);
-          
-          Faculty.create({faculty:o.faculty,faculty_name:o.faculty_name}).then(
-            (task)=>
-            {
-              console.log(task);
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"Faculty":"${o.faculty}","Faculty_name":"${o.faculty_name}"}`); 
-            }
-          ).catch(err=>
-            {
-              console.log(err);
-              res.writeHead(200,{'Content-Type': 'application/json'});
-              res.end(`{"error":"3","messsage":"Нарушение целостности при вставке в факультет"}`);
+            let body = '';
+            req.on('data', chunk => { body += chunk. toString(); });
+            req.on('end',() => {
+                let object = JSON.parse(body);
+                
+                Faculty.create({ faculty:object.faculty, faculty_name:object.faculty_name })
+                .then ((task) => {
+                    console.log(task);
+                    res.writeHead(200, { 'Content-Type':'application/json' });
+                    res.end(`{"Faculty":"${object.faculty}","Faculty_name":"${object.faculty_name}"}`); 
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.writeHead(200, { 'Content-Type':'application/json' });
+                    res.end(`{"error":"3","messsage":"Нарушение целостности при вставке в факультет"}`);
+                });
             });
-        });
         }
         else if(url.parse(req.url).pathname === '/api/pulpits'){
           let body='';
           req.on('data',chunk=>{body+=chunk.toString();});
           req.on('end', ()=>{
-              let o = JSON.parse(body);
-              Pulpit.create({pulpit:o.pulpit,pulpit_name:o.pulpit_name,faculty:o.faculty}).then
-              (task=>
-                {
-                  console.log(task);
-                  res.writeHead(200,{'Content-Type': 'application/json'});
-                  res.end(`{"Pulpit":"${o.pulpit}","Pulpit_name":"${o.pulpit_name}","Faculty":"${o.faculty}"}`);
+                let o = JSON.parse(body);
+                Pulpit.create({pulpit:o.pulpit, pulpit_name:o.pulpit_name, faculty:o.faculty})
+                .then(task => {
+                    console.log(task);
+                    res.writeHead(200,{'Content-Type': 'application/json'});
+                    res.end(`{"Pulpit":"${o.pulpit}","Pulpit_name":"${o.pulpit_name}","Faculty":"${o.faculty}"}`);
                 })
-                .catch(err=>
-                  {
+                .catch(err => {
                     res.writeHead(200,{'Content-Type': 'application/json'});
                     res.end(`{"error":"3","messsage":"Нарушение целостности при вставке в кафедру"}`);
                     console.log(err);
-                  })
+                })
             });
         }
         else if(url.parse(req.url).pathname === '/api/subjects'){
@@ -198,26 +195,24 @@ let http_handler = (req,res)=>
             let body='';
             req.on('data',chunk=>{body+=chunk.toString();});
             req.on('end',()=>{
-            let o = JSON.parse(body);
-            Faculty.update(
-            {faculty_name:o.faculty_name},
-            {where:{faculty:o.faculty}}
-            ).then(task=>
-                {
-                console.log(task);
-                if(task>0)
-                {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(`{"Faculty":"${o.faculty}","Faculty_name":"${o.faculty_name}"}`);
-                }
-                else
-                {
-                    res.writeHead(200,{'Content-Type': 'application/json'});
-                    res.end(`{"error":2,"message":"Такого кода факультета для обновления не существует"}`);
-                }
+                let o = JSON.parse(body);
+                Faculty.update(
+                    {faculty_name:o.faculty_name},
+                    {where:{faculty:o.faculty}}
+                )
+                .then(task => {
+                    console.log(task);
+
+                    if(task > 0) {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Faculty":"${o.faculty}","Faculty_name":"${o.faculty_name}"}`);
+                    }
+                    else {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":2,"message":"Такого кода факультета для обновления не существует"}`);
+                    }
                 })
-                .catch(err=>
-                {
+                .catch(err => {
                     console.log(err);
                     res.writeHead(200,{'Content-Type': 'application/json'});
                     res.end(JSON.stringify(err));
