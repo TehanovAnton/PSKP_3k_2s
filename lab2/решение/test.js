@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
+const { DB_NAME, USERNAME, USERPASSWORD } = require('./db_connection')
 const sequelize = new Sequelize(
-    'pskp', 'andrew', 'andrew',
+    DB_NAME, USERNAME, USERPASSWORD,
     { 
         dialect:'mssql', 
         pool: { max:5, min:0, acquire:30000, idle:10000 } 
@@ -61,4 +62,39 @@ let teachersQuery = () => {
     })
 }
 
-pulpitsQuery();
+let auditoriumsQuery = () => {
+    Auditorium.findOne(
+        {where:{auditorium:"newa"}}
+    )
+    .then(auditorium => {
+        console.log(auditorium);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+let auditoriumUpdate = () => {
+    Auditorium.update({
+        auditorium_name:"newAN",
+        auditorium_capacity:"77",
+        auditorium_type:"newat"
+    },
+        {where:{auditorium:"newa"}}
+    )
+    .then(task => {
+        if(task>0) {
+            console.log(task);
+        }
+        else
+        {
+            console.log(`{"error":2,"message":"“акой аудитории дл€ обновлени€ не существует"}`); 
+        }
+    })
+    .catch(err => {
+        console.log("ERROR");
+        console.log(err);
+    });
+}
+
+auditoriumUpdate()

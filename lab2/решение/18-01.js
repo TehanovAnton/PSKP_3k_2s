@@ -17,7 +17,7 @@ let http_handler = (req,res)=>
 {
     let pathname = url.parse(req.url).pathname;;
 
-    if(req.method=='GET') {
+    if (req.method=='GET') {
         if(pathname === '/'){
             
             let html= fs.readFileSync('./14-01.html');
@@ -91,7 +91,7 @@ let http_handler = (req,res)=>
             })
         }
     }
-    else if(req.method=='POST') {
+    else if (req.method=='POST') {
         if(url.parse(req.url).pathname === '/api/faculties'){
             let body = '';
             req.on('data', chunk => { body += chunk. toString(); });
@@ -189,8 +189,8 @@ let http_handler = (req,res)=>
               
           });
         }
-      }
-    else if(req.method=='PUT'){
+    }
+    else if (req.method=='PUT') {
         if(url.parse(req.url).pathname === '/api/faculties'){
             let body='';
             req.on('data',chunk=>{body+=chunk.toString();});
@@ -223,30 +223,23 @@ let http_handler = (req,res)=>
             let body='';
             req.on('data',chunk=>{body+=chunk.toString();});
             req.on('end',()=>{
-            let o = JSON.parse(body);
-            Pulpit.update(
-            {pulpit_name:o.pulpit_name,
-            faculty:o.faculty},
-            {where:{pulpit:o.pulpit}}
-            ).then(task=>
-            {
-                console.log(task);
-                if(task>0)
-                {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(`{"Pulpit":"${o.pulpit}","Pulpit_name":"${o.pulpit_name}","Faculty":"${o.faculty}"}`);
-                }
-                else
-                {
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(`{"error":2,"message":"Такого кода кафедры для обновления не существует"}`); 
-                }
-            })
-            .catch(err=>
-                {
-                console.log(err);
-                res.writeHead(200,{'Content-Type': 'application/json'});
-                res.end(JSON.stringify(err));
+                let o = JSON.parse(body);
+                Pulpit.update({pulpit_name:o.pulpit_name,faculty:o.faculty}, {where:{pulpit:o.pulpit}})
+                .then(task => {
+                    console.log(task);
+                    if(task>0){
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Pulpit":"${o.pulpit}","Pulpit_name":"${o.pulpit_name}","Faculty":"${o.faculty}"}`);
+                    }
+                    else {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":2,"message":"Такого кода кафедры для обновления не существует"}`); 
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.writeHead(200,{'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(err));
                 })
             });
         }
@@ -255,27 +248,21 @@ let http_handler = (req,res)=>
             req.on('data',chunk=>{body+=chunk.toString();});
             req.on('end',()=>{
                 let o = JSON.parse(body);
-                Subject.update(
-                {subject_name:o.subject_name,
-                    pulpit:o.pulpit},
-                {where:{subject:o.subject}}
-                )
-                .then(task=>
-                {
+                Subject.update({subject_name:o.subject_name,pulpit:o.pulpit},{where:{subject:o.subject}})
+                .then(task=>{
                     console.log(task);
                     if(task>0)
                     {
-                    res.writeHead(200,{'Content-Type': 'application/json'});
-                    res.end(`{"Subject":"${o.subject}","Subject_name":"${o.subject_name}","Pulpit":"${o.pulpit}"}`);
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Subject":"${o.subject}","Subject_name":"${o.subject_name}","Pulpit":"${o.pulpit}"}`);
                     }
                     else
                     {
-                    res.writeHead(200,{'Content-Type': 'application/json'});
-                    res.end(`{"error":2,"message":"Такого предмета для обновления не существует"}`); 
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":2,"message":"Такого предмета для обновления не существует"}`); 
                     }
                 })
-                .catch(err=>
-                {
+                .catch(err=>{
                     console.log(err);
                     res.writeHead(200,{'Content-Type': 'application/json'});
                     res.end(JSON.stringify(err));
@@ -318,36 +305,34 @@ let http_handler = (req,res)=>
             req.on('data',chunk=>{body+=chunk.toString();});
             req.on('end',()=>{
                 let o = JSON.parse(body);
-                Auditorium.update(
-                {auditorium_name:o.auditorium_name,
-                auditorium_capacity:o.auditorium_capacity,
-                auditorium_type:o.auditorium_type},
-                {where:{auditorium:o.auditorium}}
+                Auditorium.update({
+                        auditorium_name:o.auditorium_name,
+                        auditorium_capacity:o.auditorium_capacity,
+                        auditorium_type:o.auditorium_type
+                    },
+                    {where:{auditorium:o.auditorium}}
                 )
-                .then(task=>
-                {
+                .then(task => {
                     console.log(task);
-                    if(task>0)
-                    {
-                    res.writeHead(200,{'Content-Type': 'application/json'});
-                    res.end(`{"Auditorium":"${o.auditorium}","Auditorium_name":"${o.auditorium_name}","Auditorium_capacity":${o.auditorium_capacity}, "Auditorium_type":${o.auditorium_type}}`);
+                    if(task>0) {
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"Auditorium":"${o.auditorium}","Auditorium_name":"${o.auditorium_name}","Auditorium_capacity":${o.auditorium_capacity}, "Auditorium_type":${o.auditorium_type}}`);
                     }
                     else
                     {
-                    res.writeHead(200,{'Content-Type': 'application/json'});
-                    res.end(`{"error":2,"message":"Такой аудитории для обновления не существует"}`); 
+                        res.writeHead(200,{'Content-Type': 'application/json'});
+                        res.end(`{"error":2,"message":"Такой аудитории для обновления не существует"}`); 
                     }
                 })
-                .catch(err=>
-                    {
+                .catch(err => {
                     res.writeHead(200,{'Content-Type': 'application/json'});
                     res.end(JSON.stringify(err));
                     console.log(err);
-                    });
+                });
             });
         }
     }
-    else if (req.method=='DELETE'){
+    else if (req.method=='DELETE') {
         console.log(pathname);
 
         if (/\/api\/faculties\/[%-я]+/.test(pathname)){
@@ -478,8 +463,9 @@ let http_handler = (req,res)=>
                 });
             });
         }
-      }
     }
+}
+
 var server = http.createServer(function (req, res){
     try {
       sequelize.authenticate()   //проверка соединения
