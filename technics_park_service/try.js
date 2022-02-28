@@ -6,7 +6,7 @@ const sequelize = new Sequelize(
     { dialect:'mssql', pool: { max:5, min:0, acquire:30000, idle:10000 } }
 );
 
-const { Role } = require('./models/role').Role(sequelize);
+const { Role } = require('./models/role').Role();
 
 
 let rolesCreateExample = () => {

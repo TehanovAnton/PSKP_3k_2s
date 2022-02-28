@@ -1,3 +1,4 @@
+const { sequelize } = require('../db/database');
 const { Model, Sequelize } = require('../initializers/sequelize');
 
 class Role extends Model {};
@@ -10,7 +11,7 @@ function initialize(sequelize)
     )
 }
 
-module.exports.Role = (sequelize) => { 
+module.exports.Role = () => { 
     initialize(sequelize);
-    return { Role }
+    return Role
 } 
