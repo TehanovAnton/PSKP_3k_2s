@@ -9,11 +9,19 @@ const sequelize = new Sequelize(
 const { Role } = require('./models/role').Role(sequelize);
 
 
-Role.create({ title:'hay' })
-.then ((task) => {
-    console.log(task);
-})
-.catch(err => {
-    console.log(err);
-});
+let rolesCreateExample = () => {
+    Role.create({ title:'hay' })
+    .then ((task) => {
+        console.log(task);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
 
+let rolesGetAllExample = async () => {
+    roles = await Role.findAll();
+    console.log(JSON.stringify(roles));
+}
+
+rolesGetAllExample();
