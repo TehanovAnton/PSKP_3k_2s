@@ -43,4 +43,4 @@ let usersGetExample = () => {
     .catch((err) => { console.log(err); })
 }
 
-usersGetExample();
+usersGetExample()

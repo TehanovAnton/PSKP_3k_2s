@@ -20,7 +20,7 @@ function initialize(sequelize)
     );
 
     Role.hasMany(User, { as:'users', foreignKey:'id', onDelete:'cascade' })
-    User.belongsTo(Role, { as:'role', foreignKey: 'id' });
+    User.belongsTo(Role, { foreignKey: 'id' });
 }
 
 module.exports.User = () => { 

@@ -1,4 +1,5 @@
-const User = require('../models/user').User();
+
+const { userService, User } = require('../services/user_service');
 const usersRouter = require('express').Router();
 
 usersRouter.get('/users', async (req, res) => {
@@ -6,52 +7,58 @@ usersRouter.get('/users', async (req, res) => {
     res.json(users)
 })
 
-// usersRouter.post('/users', async (req, res) => {
-//     let body = '';
+usersRouter.post('/users', async (req, res) => {
+    let body = '';
 
-//     req.on('data', chunk => { body += chunk. toString(); });
-//     req.on('end', async () => {
-//         let object = JSON.parse(body);
+    req.on('data', chunk => { body += chunk. toString(); });
+    req.on('end', async () => {
+        let object = JSON.parse(body);
 
-//         let role = await User.create({ title:object['title'] })
-//                              .catch(error => { res.json(error) });
-//         res.json(role);        
-//     });
-// })
+        let user = await User.create({ 
+            nickname:object['nickname'],
+            email:object['email'],
+            password:object['password'],
+            role_id:object['role_id']
+        }).catch(error => { res.json(error) });
 
-// usersRouter.put('/users/:id', async (req, res) => {
-//     let body = '';
-//     let params = req.params;
+        res.json(user);        
+    });
+})
 
-//     req.on('data', chunk => { body += chunk. toString(); });
-//     req.on('end', async () => {
-//         let object = JSON.parse(body);
-        
-//         let result = await User.update(
-//             { title:object['title'] },
-//             { where: { id:params['id']}, returning: true, plain: true}
-//         )
-//         .catch(error => { res.json(error) });
+usersRouter.put('/users/:id', async (req, res) => {
+    let body = '';
+    let params = req.params;
 
-//         res.json(result[1]);        
-//     });
-// })
+    req.on('data', chunk => { body += chunk. toString(); });
+    req.on('end', async () => {
+        let updates = userService.updateAttributes(JSON.parse(body));        
+        let result = await User.update(
+            updates, { where: { id:params['id']}, returning: true, plain: true}
+        )
+        .catch(error => { res.json(error) });
 
-// usersRouter.delete('/users/:id', async (req, res) => {
-//     let params = req.params;
+        console.log(result);
 
-//     let role = await User.findByPk(params['id']);
-//     let result = await User.destroy(
-//         { 
-//             where:{ id:params['id'] },
-//             returning: true, 
-//             plain: true
-//         }
-//     ).catch(error => { res.json(error) });
+        if(result[1]) res.json(result[1]);
+        else res.json('user not found or not updated')
+    });
+})
+
+usersRouter.delete('/users/:id', async (req, res) => {
+    let params = req.params;
+
+    let user = await User.findByPk(params['id']);
+    let result = await User.destroy(
+        { 
+            where:{ id:params['id'] },
+            returning: true, 
+            plain: true
+        }
+    ).catch(error => { res.json(error) });
     
-//     if(result) res.json(role);
-//     else res.json('role not found')
-// })
+    if(result) res.json(user);
+    else res.json('user not found')
+})
 
 
 module.exports = usersRouter;

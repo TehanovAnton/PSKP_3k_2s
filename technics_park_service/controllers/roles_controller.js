@@ -33,7 +33,8 @@ rolesRouter.put('/roles/:id', async (req, res) => {
         )
         .catch(error => { res.json(error) });
 
-        res.json(result[1]);        
+        if(result[1]) res.json(result[1]);
+        else res.json('role not found or not updated')
     });
 })
 
