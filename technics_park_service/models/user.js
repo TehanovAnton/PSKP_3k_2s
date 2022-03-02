@@ -1,10 +1,9 @@
 const { sequelize } = require('../db/database');
 const { Model, Sequelize } = require('../initializers/sequelize');
-const Role = require('./role').Role();
 
 class User extends Model {};
 
-function initialize(sequelize)
+function initialize(sequelize, roleModel)
 {
     User.init(
         { 
@@ -13,17 +12,18 @@ function initialize(sequelize)
             password: { type:Sequelize.STRING, allowNull:false },
             role_id: { 
                 type:Sequelize.BIGINT, allowNull:false,
-                references:{ model:Role, key:'id' }
+                references:{ model:roleModel, key:'id' }
             }
         },
         { sequelize, modelName:'User', tableName:'users', timestamps: false }
     );
 
-    Role.hasMany(User, { as:'users', foreignKey:'id', onDelete:'cascade' })
-    User.belongsTo(Role, { foreignKey: 'id' });
+    roleModel.hasMany(User, { as:'users', foreignKey:'id', onDelete:'cascade' })
+    User.belongsTo(roleModel, { foreignKey: 'id' });
 }
 
 module.exports.User = () => { 
-    initialize(sequelize);
+    let Role = require('./role').Role();
+    initialize(sequelize, Role);
     return User
 };

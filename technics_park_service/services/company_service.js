@@ -1,8 +1,8 @@
 
-const User = require('../models/user').User()
+const Company = require('../models/company').Company();
 
-const userService = {
-    userAttributes: Object.keys(User.getAttributes()),
+const companyService = {
+    userAttributes: Object.keys(Company.getAttributes()),
 
     updateAttributes: function(params) {
         let paramsKeys = Object.keys(params);
@@ -15,6 +15,6 @@ const userService = {
 
         return params;
     }
-}
+};
 
-module.exports = { userService, User }
+module.exports = { companyService, Company }

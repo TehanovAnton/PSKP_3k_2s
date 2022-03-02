@@ -37,8 +37,6 @@ usersRouter.put('/users/:id', async (req, res) => {
         )
         .catch(error => { res.json(error) });
 
-        console.log(result);
-
         if(result[1]) res.json(result[1]);
         else res.json('user not found or not updated')
     });

@@ -8,6 +8,7 @@ const sequelize = new Sequelize(
 
 const Role = require('./models/role').Role();
 const User = require('./models/user').User();
+const Company = require('./models/company').Company();
 
 
 let rolesCreateExample = () => {
@@ -43,4 +44,34 @@ let usersGetExample = () => {
     .catch((err) => { console.log(err); })
 }
 
-usersGetExample()
+let companiesCreateExample = () => {
+    Company.create({ name:'hay', email:'hay@gmail.com', user_id:0 })
+    .then ((company) => {
+        console.log(company);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+let companiesGetExample = () => {
+    Company.findOne({ where:{ id:1 }, include: 'user' })
+    .then((obj) => {
+        console.log(JSON.stringify(obj));
+        console.log(JSON.stringify(obj.user));
+    })
+    .catch((err) => { console.log(err); })
+}
+
+let companiesUpdateExample = () => {
+    Company.update(
+        { name:'HaYo' },
+        { where: { id:0 } }
+    )
+    .then((company) => {
+        console.log(company);
+    })
+    .catch(error => { console.log(error); });    
+}
+
+companiesUpdateExample()
