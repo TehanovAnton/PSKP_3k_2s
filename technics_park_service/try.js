@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
 const Role = require('./models/role').Role();
 const User = require('./models/user').User();
 const Company = require('./models/company').Company();
+const Park = require('./models/park').Park();
 
 
 let rolesCreateExample = () => {
@@ -74,4 +75,12 @@ let companiesUpdateExample = () => {
     .catch(error => { console.log(error); });    
 }
 
-companiesUpdateExample()
+let parksGetExample = () => {
+    Park.findOne({ where:{ id:0 } })
+    .then((obj) => {
+        console.log(JSON.stringify(obj));
+    })
+    .catch((err) => { console.log(err); })
+}
+
+parksGetExample();
