@@ -5,7 +5,7 @@ const helpers = require('../helpers/helpers');
 
 companiesRouter.get('/companies/index', async (req, res) => {
     let companies = await Company.findAll({ raw:true });
-    res.render('./companies/index', { companies: companies })
+    res.render('./companies/index', { activate:true, companies: companies })
 })
 
 companiesRouter.get('/companies/new', async (req, res) => {
@@ -25,30 +25,27 @@ companiesRouter.post('/companies/create', async function(req, res, next) {
     res.redirect(helpers.companiesIndexPath());        
 })
 
-companiesRouter.put('/companies/:id', async (req, res) => {
-    let body = '';
-    let params = req.params;
-
-    req.on('data', chunk => { body += chunk. toString(); });
-    req.on('end', async () => {
-        let updates = companyService.updateAttributes(JSON.parse(body));        
-        let result = await Company.update(
-            updates, { where: { id:params['id']}, returning: true, plain: true}
-        )
-        .catch(error => { res.json(error) });
-
-        console.log(params['id']);
-        console.log(result);
-
-        if(result[1]) res.json(result[1]);
-        else res.json('company not found or not updated')
-    });
+companiesRouter.get('/companies/:id/edit', async (req, res) => {
+    let companies = await Company.findAll({ raw:true });
+    let company = await Company.findOne({ raw:true });
+    res.render('./companies/edit', { activate:false, companies:companies, company:company })
 })
 
-companiesRouter.delete('/companies/:id', async (req, res) => {
-    let params = req.params;
+companiesRouter.post('/companies/:id/update', async (req, res) => {
+    let params = req.params, body = req.body;
 
-    let company = await Company.findByPk(params['id']);
+    let updates = companyService.updateAttributes(body);        
+    let result = await Company.update(
+        updates, { where: { id:params['id']}, returning: true, plain: true}
+    )
+    .catch(error => { res.json(error) });        
+
+    if(result[1]) res.redirect(helpers.companiesIndexPath());
+    else res.json('company not found or not updated')
+})
+
+companiesRouter.get('/companies/:id/delete', async (req, res) => {
+    let params = req.params;    
     let result = await Company.destroy(
         { 
             where:{ id:params['id'] },
@@ -57,9 +54,8 @@ companiesRouter.delete('/companies/:id', async (req, res) => {
         }
     ).catch(error => { res.json(error) });
     
-    if(result) res.json(company);
+    if(result) res.redirect(helpers.companiesIndexPath());
     else res.json('company not found')
 })
-
 
 module.exports = companiesRouter;

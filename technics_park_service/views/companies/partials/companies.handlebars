@@ -2,7 +2,9 @@
 <div>
     <ul>
         {{#each companies}}
-            <li>{{this.name}}: {{this.email}}</li>
+            <li>
+                <a href={{companiesEditPath this.id ../activate}}>{{this.name}}: {{this.email}}</a>
+            </li>
         {{/each}}
     </ul>
 </div>
