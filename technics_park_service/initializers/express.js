@@ -1,6 +1,6 @@
 const express = require('express');
 const application = express();
-const hbs = require('./handlebars');
+const hbs = require('./handlebars').hbs;
 
 const rolesRouter = require('../controllers/roles_controller');
 const usersRouter = require('../controllers/users_controller');
