@@ -1,27 +1,28 @@
 
 const { companyService, Company } = require('../services/company_service');
 const companiesRouter = require('express').Router();
+const helpers = require('../helpers/helpers');
 
-companiesRouter.get('/companies', async (req, res) => {
-    let companies = await Company.findAll();
-    res.json(companies)
+companiesRouter.get('/companies/index', async (req, res) => {
+    let companies = await Company.findAll({ raw:true });
+    res.render('./companies/index', { companies: companies })
 })
 
-companiesRouter.post('/companies', async (req, res) => {
-    let body = '';
+companiesRouter.get('/companies/new', async (req, res) => {
+    let companies = await Company.findAll({ raw:true });
+    res.render('./companies/new', { companies: companies })
+})
 
-    req.on('data', chunk => { body += chunk.toString(); });
-    req.on('end', async () => {
-        let object = JSON.parse(body);
+companiesRouter.post('/companies/create', async function(req, res, next) {   
+    let params = req.body;
+    console.log(params);
+    let company = await Company.create({ 
+        name:params['name'],
+        email:params['email'],
+        user_id:parseInt(params['user_id'])
+    }).catch(error => { res.json(error) });
 
-        let company = await Company.create({ 
-            name:object['name'],
-            email:object['email'],
-            user_id:object['user_id']
-        }).catch(error => { res.json(error) });
-
-        res.json(company);        
-    });
+    res.redirect(helpers.companiesIndexPath());        
 })
 
 companiesRouter.put('/companies/:id', async (req, res) => {
