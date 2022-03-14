@@ -1,3 +1,4 @@
+const Logger = require('nodemon/lib/utils/log');
 const Sequelize = require('sequelize');
 const { DB_NAME, USER_NAME, USER_PASSWORD } = require('./db/database');
 
@@ -83,4 +84,7 @@ let parksGetExample = () => {
     .catch((err) => { console.log(err); })
 }
 
-companiesCreateExample();
+User.findByPk(3, { raw:true })
+.then(user => {
+    console.log(user);
+})

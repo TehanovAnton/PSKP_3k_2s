@@ -1,0 +1,17 @@
+<h1>Sign Up</h1>
+<form method="post" action={{signUpPostPath}}>
+    <label for="nickname">Nickname</label>
+    <input type="text" id="nickname" name="nickname" required/>
+    <hr>
+
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email"/>
+    <hr>
+
+    <label for="password">Password</label>
+    <input type="text" id="password" name="password" required/>
+    <input type="hidden" name="role_id" value="0"/>
+    <br>
+
+    <button type="submit">sign up</button>
+</form>

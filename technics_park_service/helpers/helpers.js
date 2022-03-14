@@ -22,5 +22,23 @@ function companiesDeletePath(id) {
     return `/companies/${id}/delete`;
 }
 
+function signUpPostPath() {
+    return '/sign_up';
+}
+
+function signInPostPath() {
+    return '/sign_in'
+}
+
+function signInGetPath() {
+    return '/sign_in'
+}
+
+function logoutDeletePath() {
+    return '/sign_out?_method=DELETE'
+}
+
 module.exports = { companiesIndexPath, companiesNewPath, companiesCreatePath,
-                   companiesEditPath, companiesUpdatePath, companiesDeletePath }
+                   companiesEditPath, companiesUpdatePath, companiesDeletePath,
+                   signInPostPath, signUpPostPath, signInGetPath,
+                   logoutDeletePath }
