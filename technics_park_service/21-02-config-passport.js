@@ -1,6 +1,5 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
+const DigestStrategy = require('passport-http').DigestStrategy;
 const bcrypt = require('bcrypt')
 
 const User = require('./models/user').User()
@@ -14,10 +13,8 @@ passport.deserializeUser(async (id, done) => {
 })
 
 passport.use(
-  new LocalStrategy(
-    { usernameField: 'email' },
-
-    async function(email, password, done) {
+  new DigestStrategy({ qop: 'auth' },
+    async function(email, done) {
       try {
         let user = await User.findOne({ where: { email:email } });
 

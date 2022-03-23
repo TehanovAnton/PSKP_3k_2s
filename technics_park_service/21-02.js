@@ -28,8 +28,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/sign_up', async (req, res) => {
-  let params = req.body,
-      hashedPassword = await bcrypt.hash(params.password, 10);
+  let params = req.body
+  let hashedPassword = await bcrypt.hash(params.password, 10);
 
   let user = await User.create({ 
       nickname:params['nickname'],
@@ -44,27 +44,29 @@ app.post('/sign_up', async (req, res) => {
 })
 
 app.post('/login', (req, res, next) => {
-  passport.authenticate('local', function(err, user) {
-    if (err) {
-      console.log(err);
-      return res.send("ERROR");
-    }
-
-    if (!user) {
-      console.log(user);
-      return res.send('User not found!');
-    }
-
-    req.logIn(user, function(err) {
+  passport.authenticate('digest', 
+    function(err, user) {
       if (err) {
         console.log(err);
-        return res.send('Error lognin');
+        return res.send("ERROR");
       }
 
-      return res.send('good job');
-    });
-  })(req, res, next);
-});
+      if (!user) {
+        console.log(user);
+        return res.send('User not found!');
+      }
+
+      req.logIn(user, function(err) {
+        if (err) {
+          console.log(err);
+          return res.send('Error lognin');
+        }
+
+        return res.send('good job');
+      });
+    })(req, res, next);
+  }
+);
 
 const auth = (req, res, next) => {
   if (!req.isAuthenticated()) {
