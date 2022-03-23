@@ -7,23 +7,23 @@ usersRouter.get('/users', async (req, res) => {
     res.json(users)
 })
 
-usersRouter.post('/users', async (req, res) => {
-    let body = '';
+// usersRouter.post('/users', async (req, res) => {
+//     let body = '';
 
-    req.on('data', chunk => { body += chunk. toString(); });
-    req.on('end', async () => {
-        let object = JSON.parse(body);
+//     req.on('data', chunk => { body += chunk. toString(); });
+//     req.on('end', async () => {
+//         let object = JSON.parse(body);
 
-        let user = await User.create({ 
-            nickname:object['nickname'],
-            email:object['email'],
-            password:object['password'],
-            role_id:object['role_id']
-        }).catch(error => { res.json(error) });
+//         let user = await User.create({ 
+//             nickname:object['nickname'],
+//             email:object['email'],
+//             password:object['password'],
+//             role_id:object['role_id']
+//         }).catch(error => { res.json(error) });
 
-        res.json(user);        
-    });
-})
+//         res.json(user);        
+//     });
+// })
 
 usersRouter.put('/users/:id', async (req, res) => {
     let body = '';

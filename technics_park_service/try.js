@@ -1,3 +1,4 @@
+const Logger = require('nodemon/lib/utils/log');
 const Sequelize = require('sequelize');
 const { DB_NAME, USER_NAME, USER_PASSWORD } = require('./db/database');
 
@@ -46,7 +47,7 @@ let usersGetExample = () => {
 }
 
 let companiesCreateExample = () => {
-    Company.create({ name:'hay', email:'hay@gmail.com', user_id:0 })
+    Company.create({ name:'Anton', email:'tehanovanton@gmail', user_id:0 })
     .then ((company) => {
         console.log(company);
     })
@@ -83,4 +84,7 @@ let parksGetExample = () => {
     .catch((err) => { console.log(err); })
 }
 
-parksGetExample();
+User.findByPk(3, { raw:true })
+.then(user => {
+    console.log(user);
+})
