@@ -1,20 +1,20 @@
 const passport = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
+const DigestStrategy = require('passport-http').DigestStrategy;
 const User = require('./models/user').User()
 const bcrypt = require('bcrypt')
 const fs = require('fs');
 const res = require('express/lib/response');
 
-passport.use( new BasicStrategy({ usernameField: 'email' },
-  async function (email, password, done) {
+passport.use( new DigestStrategy({ qop:'auth' },
+  async function (username, done) {
     try {      
       console.log('GO');
-      let user = await User.findOne({ where: { email:email } })
+      let user = await User.findOne({ where: { email:username }, raw:true })
+      console.log(user);
   
       if (!user) { return done(null, false); }
-      if (await !bcrypt.compare(password, user.password)) { return done(null, false) }
       
-      return done(null, user);
+      return done(null, user, user.password);
     }
     catch(err) {
       return done(err)

@@ -41,13 +41,13 @@ let checkNotAuthentificated = (req, res, next) => {
     res.send('authentificated')
 }
 
-app.get('/login', passport.authenticate('basic', { session:true }),
+app.get('/login', passport.authenticate('digest', { session:true }),
   (req, res) => {
     res.send(JSON.stringify(req.user))
   }
 );
 
-app.get('/logout', checkAuthentificated, passport.authenticate('basic', { session:true }),
+app.get('/logout', passport.authenticate('digest', { session:true }),
   function(req, res){
     req.logout();
     res.send('loged out');
@@ -55,8 +55,15 @@ app.get('/logout', checkAuthentificated, passport.authenticate('basic', { sessio
 );
 
 app.get('/resource',
-  passport.authenticate('basic', { session:true, failureRedirect: '/login'}),
-  (req, res) => {})
+  (req, res) => {    
+    if (req.headers['authorization'] && req.isAuthenticated()) {
+      res.send('Resource')
+    }
+    else {
+      console.log(`redirect`);
+      res.redirect('/login')
+    }
+  })
 
 app.post('/sign_up', async (req, res) => {
   let params = req.body
